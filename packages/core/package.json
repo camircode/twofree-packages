@@ -1,0 +1,49 @@
+{
+  "name": "@camircode/twofree-core",
+  "version": "0.1.0",
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "exports": {
+    "./account.js": {
+      "types": "./dist/account.d.ts",
+      "default": "./dist/account.js"
+    },
+    "./identifiers.js": {
+      "types": "./dist/identifiers.d.ts",
+      "default": "./dist/identifiers.js"
+    },
+    "./money.js": {
+      "types": "./dist/money.d.ts",
+      "default": "./dist/money.js"
+    },
+    "./privacy.js": {
+      "types": "./dist/privacy.d.ts",
+      "default": "./dist/privacy.js"
+    },
+    "./product-domain.js": {
+      "types": "./dist/product-domain.d.ts",
+      "default": "./dist/product-domain.js"
+    },
+    "./transaction.js": {
+      "types": "./dist/transaction.d.ts",
+      "default": "./dist/transaction.js"
+    },
+    "./validation.js": {
+      "types": "./dist/validation.d.ts",
+      "default": "./dist/validation.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "dependencies": {
+    "decimal.js": "10.6.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run --config vitest.config.ts"
+  }
+}

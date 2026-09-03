@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "paths": {
+      "@/*.js": ["src/*.ts"]
+    },
+    "types": ["node", "vitest/globals"]
+  },
+  "exclude": [],
+  "include": ["src/**/*.ts", "test/**/*.ts", "vitest.config.ts", "prisma.config.ts"]
+}

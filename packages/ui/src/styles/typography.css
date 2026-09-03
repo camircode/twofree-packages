@@ -1,0 +1,44 @@
+@import "@fontsource-variable/urbanist";
+@import "@fontsource-variable/open-sans";
+
+:root {
+  --font-display: "Urbanist Variable", "Urbanist", "Avenir Next", "Segoe UI", sans-serif;
+  --font-body: "Open Sans Variable", "Open Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+html {
+  min-block-size: 100%;
+  font-family: var(--font-body);
+  font-synthesis: none;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background: var(--surface-canvas);
+}
+
+body {
+  min-block-size: 100%;
+  margin: 0;
+  background: var(--surface-canvas);
+  color: var(--text-primary);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+button {
+  font-family: var(--font-display);
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  overflow-wrap: anywhere;
+}

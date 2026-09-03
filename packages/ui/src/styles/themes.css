@@ -1,0 +1,124 @@
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  --surface-sunken: #f4eadf;
+  --surface-canvas: #fffdf8;
+  --surface-panel: #ffffff;
+  --surface-raised: #fbf7ec;
+  --surface-accent: #f9edde;
+  --surface-accent-muted: #e7efda;
+  --surface-inverse: #29231f;
+  --surface-glass: rgb(255 253 248 / 84%);
+  --surface-glass-strong: rgb(255 253 248 / 94%);
+  --surface-sage: #edf2df;
+  --surface-peach: #f5e8dc;
+  --surface-blue: #e2edf0;
+  --surface-pink: #f3cadf;
+  --surface-warning-soft: #fff0cd;
+  --surface-hero-start: #ffd1b3;
+  --surface-hero-end: #f7b88f;
+  --surface-hero-deep-start: #302b27;
+  --surface-hero-deep-end: #765847;
+
+  --text-primary: #29231f;
+  --text-secondary: #655b53;
+  --text-muted: #7a6d63;
+  --text-inverse: #fffdf8;
+  --text-on-accent: #fffdf8;
+  --text-on-warm: #302b27;
+
+  --border-subtle: #e6ded4;
+  --border-strong: #b9aa9d;
+
+  --accent-primary: #b73322;
+  --accent-secondary: #617142;
+  --accent-mint: #657b49;
+  --focus-ring: #9b2c1e;
+  --focus-ring-offset: #fffdf8;
+  --ambient-sage: rgb(178 198 147 / 34%);
+  --ambient-peach: rgb(249 205 172 / 42%);
+  --decorative-ring: rgb(255 253 248 / 42%);
+
+  --shadow-soft: 0 0.25rem 1rem rgb(67 48 37 / 8%);
+  --shadow-card: 0 1rem 2.5rem rgb(67 48 37 / 10%), 0 0.125rem 0.5rem rgb(67 48 37 / 5%);
+  --shadow-floating: 0 1.5rem 4rem rgb(67 48 37 / 14%), 0 0.25rem 1rem rgb(67 48 37 / 8%);
+  --shadow-action: 0 0.75rem 2rem rgb(183 51 34 / 20%);
+  --shadow-hero: 0 1.25rem 3.5rem rgb(150 74 40 / 15%);
+  --shadow-modal: 0 2rem 8rem rgb(48 43 39 / 30%);
+  --overlay-scrim: rgb(48 43 39 / 52%);
+
+  --color-status-success: #2e6b45;
+  --color-status-warning: #8a5b00;
+  --color-status-danger: #a12d20;
+  --color-status-neutral: #52616b;
+  --surface-status-success: #e7f3e9;
+  --surface-status-warning: #fff2cf;
+  --surface-status-danger: #fbe7e3;
+  --surface-status-neutral: #e9eff2;
+  --chart-one: #6f9141;
+  --chart-two: #b34d91;
+  --chart-three: #a94b32;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --surface-sunken: #131110;
+  --surface-canvas: #1d1917;
+  --surface-panel: #29231f;
+  --surface-raised: #382e28;
+  --surface-accent: #493631;
+  --surface-accent-muted: #30402a;
+  --surface-inverse: #fffdf8;
+  --surface-glass: rgb(41 35 31 / 88%);
+  --surface-glass-strong: rgb(41 35 31 / 96%);
+  --surface-sage: #2b3926;
+  --surface-peach: #432f28;
+  --surface-blue: #26363b;
+  --surface-pink: #422d38;
+  --surface-warning-soft: #49391d;
+  --surface-hero-start: #573126;
+  --surface-hero-end: #784735;
+  --surface-hero-deep-start: #fffdf8;
+  --surface-hero-deep-end: #b8886b;
+
+  --text-primary: #fff7ed;
+  --text-secondary: #d6c8bb;
+  --text-muted: #bca99b;
+  --text-inverse: #29231f;
+  --text-on-accent: #1d1917;
+  --text-on-warm: #fff7ed;
+
+  --border-subtle: #51453c;
+  --border-strong: #8c796b;
+
+  --accent-primary: #f3ae9f;
+  --accent-secondary: #c3d69d;
+  --accent-mint: #b2c693;
+  --focus-ring: #f3ae9f;
+  --focus-ring-offset: #1d1917;
+  --ambient-sage: rgb(143 168 108 / 18%);
+  --ambient-peach: rgb(195 112 78 / 18%);
+  --decorative-ring: rgb(255 247 237 / 20%);
+
+  --shadow-soft: 0 0.25rem 1rem rgb(0 0 0 / 28%);
+  --shadow-card: 0 1rem 2.5rem rgb(0 0 0 / 38%), 0 0.125rem 0.5rem rgb(0 0 0 / 24%);
+  --shadow-floating: 0 1.5rem 4rem rgb(0 0 0 / 48%), 0 0.25rem 1rem rgb(0 0 0 / 32%);
+  --shadow-action: 0 0.75rem 2rem rgb(0 0 0 / 35%);
+  --shadow-hero: 0 1.25rem 3.5rem rgb(0 0 0 / 32%);
+  --shadow-modal: 0 2rem 8rem rgb(0 0 0 / 58%);
+  --overlay-scrim: rgb(0 0 0 / 68%);
+
+  --color-status-success: #9fd1a8;
+  --color-status-warning: #f6cc76;
+  --color-status-danger: #ff9f91;
+  --color-status-neutral: #b8d4df;
+  --surface-status-success: #1f3b29;
+  --surface-status-warning: #483918;
+  --surface-status-danger: #4b2722;
+  --surface-status-neutral: #283941;
+  --chart-one: #c3d69d;
+  --chart-two: #e6a9d4;
+  --chart-three: #eea38b;
+}

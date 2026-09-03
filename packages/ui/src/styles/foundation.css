@@ -1,0 +1,43 @@
+:where(a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 0.1875rem solid var(--focus-ring);
+  outline-offset: 0.1875rem;
+  box-shadow: 0 0 0 0.4375rem var(--focus-ring-offset);
+}
+
+:where(button, input, select, textarea) {
+  font: inherit;
+}
+
+:where(button, a) {
+  min-block-size: 2.75rem;
+}
+
+:where(button) {
+  border-radius: var(--radius-sm);
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+:where(img, svg) {
+  max-inline-size: 100%;
+}
+
+:where(svg) {
+  display: block;
+}
+
+::selection {
+  color: var(--text-on-accent);
+  background: var(--accent-primary);
+}
+
+@media (forced-colors: active) {
+  :where(a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 0.1875rem solid CanvasText;
+    box-shadow: none;
+  }
+}

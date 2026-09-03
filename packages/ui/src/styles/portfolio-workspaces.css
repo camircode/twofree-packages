@@ -1,0 +1,906 @@
+.ui-portfolio {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 5rem);
+  inline-size: 100%;
+  color: var(--text-primary);
+}
+.ui-portfolio :where(h1, h2, h3, p) {
+  margin: 0;
+}
+.ui-portfolio__eyebrow {
+  display: none;
+}
+.ui-portfolio__heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 1.5rem;
+  padding-block: clamp(1rem, 3vw, 2rem) 0.25rem;
+}
+.ui-portfolio__heading > div:first-child {
+  display: grid;
+  gap: 0.65rem;
+}
+.ui-portfolio__heading h1 {
+  max-inline-size: 13ch;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4.8rem);
+  font-weight: 650;
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+}
+.ui-portfolio__heading p:last-child {
+  max-inline-size: 48rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+.ui-portfolio__heading-action {
+  align-self: end;
+}
+.ui-portfolio__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-block-size: 3rem;
+  padding: 0.7rem 1.15rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  font: 750 0.9rem/1 var(--font-display);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+.ui-portfolio__button svg {
+  inline-size: 1.2rem;
+  block-size: 1.2rem;
+}
+.ui-portfolio__button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+.ui-portfolio__button:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+.ui-portfolio__button--primary {
+  color: var(--text-on-accent);
+  background: var(--accent-primary);
+  box-shadow: var(--shadow-action);
+}
+.ui-portfolio__button--dark {
+  color: var(--text-inverse);
+  background: var(--surface-inverse);
+}
+.ui-portfolio__button--outline {
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
+  background: var(--surface-panel);
+}
+.ui-portfolio__hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  min-block-size: 14rem;
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+  border-radius: clamp(1.6rem, 4vw, 2.6rem);
+  overflow: hidden;
+}
+.ui-portfolio__hero::after {
+  position: absolute;
+  z-index: -1;
+  inline-size: 22rem;
+  block-size: 22rem;
+  border: 2.5rem solid var(--decorative-ring);
+  border-radius: 50%;
+  content: "";
+  inset: auto -4rem -8rem auto;
+}
+.ui-portfolio__hero--accounts {
+  color: var(--text-primary);
+  background: linear-gradient(125deg, var(--surface-sage), var(--surface-accent-muted));
+}
+.ui-portfolio__hero--portability {
+  color: var(--text-inverse);
+  background: linear-gradient(125deg, var(--surface-inverse), var(--border-strong));
+}
+.ui-portfolio__hero > div:first-child {
+  display: grid;
+  align-content: center;
+  gap: 0.45rem;
+}
+.ui-portfolio__hero span {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.ui-portfolio__hero strong {
+  max-inline-size: 18ch;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+.ui-portfolio__hero small {
+  margin-block-start: 0.7rem;
+  opacity: 0.72;
+}
+.ui-portfolio__hero-orbit {
+  display: grid;
+  align-self: center;
+  place-items: center;
+  inline-size: clamp(5rem, 12vw, 8rem);
+  block-size: clamp(5rem, 12vw, 8rem);
+  border-radius: 50%;
+  background: var(--decorative-ring);
+  transform: rotate(-8deg);
+}
+.ui-portfolio__hero-orbit svg {
+  inline-size: 46%;
+  block-size: 46%;
+}
+.ui-portfolio__metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+.ui-portfolio__metrics article {
+  display: grid;
+  gap: 0.35rem;
+  min-block-size: auto;
+  padding: 1rem 0;
+  border-block-start: 1px solid var(--border-subtle);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.ui-portfolio__metrics article[data-tone="available"] {
+  background: transparent;
+}
+.ui-portfolio__metrics article[data-tone="invested"] {
+  background: transparent;
+}
+.ui-portfolio__metrics article[data-tone="credit"] {
+  background: transparent;
+}
+.ui-portfolio__metrics span {
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+}
+.ui-portfolio__metrics strong {
+  margin-block-start: auto;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 3vw, 2.35rem);
+  letter-spacing: -0.04em;
+}
+.ui-portfolio__metrics small {
+  display: none;
+}
+.ui-portfolio__panel {
+  display: grid;
+  gap: 1.25rem;
+  padding: clamp(1.15rem, 3vw, 1.8rem);
+  border: 1px solid var(--border-subtle);
+  border-radius: clamp(1.4rem, 3vw, 2rem);
+  background: var(--surface-glass);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(1rem);
+}
+.ui-portfolio__section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.ui-portfolio__section-heading h2,
+.ui-portfolio__portability-grid h2 {
+  margin-block-start: 0.25rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  letter-spacing: -0.04em;
+}
+.ui-portfolio__section-heading a {
+  color: var(--accent-primary);
+  font-weight: 750;
+}
+.ui-portfolio__account-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+.ui-portfolio__account {
+  display: grid;
+  gap: 0.4rem;
+  min-block-size: 14rem;
+  padding: 1.25rem;
+  border-radius: 1.5rem;
+  background: var(--surface-raised);
+}
+.ui-portfolio__account[data-kind="invested"] {
+  background: var(--surface-inverse);
+  color: var(--text-inverse);
+}
+.ui-portfolio__account[data-kind="credit"] {
+  background: var(--surface-pink);
+  color: var(--text-primary);
+}
+.ui-portfolio__account-icon {
+  display: grid;
+  place-items: center;
+  inline-size: 2.6rem;
+  block-size: 2.6rem;
+  margin-block-end: 0.8rem;
+  border-radius: 50%;
+  background: var(--surface-glass);
+}
+.ui-portfolio__account > span {
+  font-size: 0.75rem;
+  opacity: 0.65;
+}
+.ui-portfolio__account h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+}
+.ui-portfolio__account > strong {
+  margin-block-start: auto;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  letter-spacing: -0.04em;
+}
+.ui-portfolio__account-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+}
+.ui-portfolio__account-footer a {
+  color: inherit;
+  font-weight: 750;
+}
+.ui-portfolio__record-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.ui-portfolio__account > .ui-portfolio__record-actions {
+  margin-block-start: 0.55rem;
+  padding-block-start: 0.75rem;
+  border-block-start: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+}
+.ui-portfolio__record-actions button {
+  display: inline-flex;
+  min-block-size: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding-inline: 0.7rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.75rem;
+  color: var(--text-primary);
+  background: var(--surface-panel);
+  font: 750 0.72rem var(--font-display);
+  cursor: pointer;
+}
+.ui-portfolio__record-actions button[data-danger="true"] {
+  color: var(--color-status-danger);
+}
+.ui-portfolio__record-actions svg {
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+.ui-portfolio__filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.ui-portfolio__filters > label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  background: var(--surface-panel);
+}
+.ui-portfolio__filters input {
+  inline-size: 100%;
+  border: 0;
+  outline: 0;
+  color: inherit;
+  background: transparent;
+}
+.ui-portfolio__filters > div {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.ui-portfolio__filters button {
+  padding: 0.55rem 0.75rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+.ui-portfolio__filters button[aria-pressed="true"] {
+  color: var(--text-inverse);
+  background: var(--surface-inverse);
+}
+.ui-portfolio__filter-panel {
+  display: grid;
+  gap: 1rem;
+  padding-block: 1rem;
+  border-block: 1px solid var(--border-subtle);
+}
+.ui-portfolio__filter-panel > h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 750;
+}
+.ui-portfolio__filter-panel > h3 svg {
+  inline-size: 1.1rem;
+}
+.ui-portfolio__advanced-filters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+.ui-portfolio__advanced-filters label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+.ui-portfolio__advanced-filters :is(input, select) {
+  min-block-size: 2.75rem;
+  min-inline-size: 0;
+  padding-inline: 0.7rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 0.75rem;
+  color: var(--text-primary);
+  background: var(--surface-panel);
+  font: inherit;
+}
+.ui-portfolio__advanced-filters > button {
+  align-self: end;
+  min-block-size: 2.75rem;
+  border: 0;
+  color: var(--text-primary);
+  background: transparent;
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+  cursor: pointer;
+}
+.ui-portfolio__transaction-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ui-portfolio__transaction-list li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0.25rem;
+  border-block-end: 1px solid var(--border-subtle);
+}
+.ui-portfolio__transaction-list li > div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.ui-portfolio__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-block-start: 0.75rem;
+}
+
+.ui-portfolio__pagination button {
+  min-block-size: 2.75rem;
+  padding-inline: 0.9rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  color: var(--text-primary);
+  background: var(--surface-panel);
+  cursor: pointer;
+}
+
+.ui-portfolio__pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.ui-portfolio__pagination span {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  text-align: center;
+}
+.ui-portfolio__transaction-list li span,
+.ui-portfolio__transaction-list time {
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+}
+.ui-portfolio__transaction-list strong[data-type="income"] {
+  color: var(--color-status-success);
+}
+.ui-portfolio__transaction-mark {
+  display: grid;
+  place-items: center;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  border-radius: 50%;
+  color: var(--accent-primary) !important;
+  background: var(--surface-peach);
+  font-size: 1.2rem !important;
+  font-weight: 800;
+}
+.ui-portfolio__transaction-mark[data-type="income"] {
+  color: var(--color-status-success) !important;
+  background: var(--surface-sage);
+}
+.ui-portfolio__empty {
+  padding: 2rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+.ui-portfolio__portability-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.ui-portfolio__portability-grid article {
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+  min-block-size: 18rem;
+  padding: clamp(1.4rem, 3vw, 2rem);
+  border-radius: 2rem;
+  background: var(--surface-pink);
+}
+.ui-portfolio__portability-grid article:nth-child(2) {
+  background: var(--surface-sage);
+}
+.ui-portfolio__portability-grid article p:not(.ui-portfolio__eyebrow) {
+  max-inline-size: 42ch;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+.ui-portfolio__portability-grid .ui-portfolio__button {
+  justify-self: start;
+  margin-block-start: auto;
+}
+.ui-portfolio__feature-icon {
+  display: grid;
+  place-items: center;
+  inline-size: 3.5rem;
+  block-size: 3.5rem;
+  border-radius: 1.1rem;
+  background: var(--surface-glass);
+}
+.ui-portfolio__portability-status {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  border-radius: 1.25rem;
+  background: var(--surface-glass);
+  box-shadow: var(--shadow-soft);
+}
+.ui-portfolio__portability-status[data-status="error"] {
+  background: var(--surface-status-danger);
+}
+.ui-portfolio__portability-status[data-status="success"] {
+  background: var(--surface-status-success);
+}
+.ui-portfolio__portability-status > div {
+  display: grid;
+  gap: 0.2rem;
+}
+.ui-portfolio__portability-status span {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+}
+.ui-visually-hidden {
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  clip: rect(0 0 0 0) !important;
+  overflow: hidden !important;
+}
+.ui-transaction-dialog {
+  inline-size: min(42rem, calc(100% - 2rem));
+  max-block-size: calc(
+    100dvh - 2rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
+  );
+  padding: 0;
+  margin: auto;
+  border: 0;
+  border-radius: 2rem;
+  color: var(--text-primary);
+  background: var(--surface-panel);
+  box-shadow: var(--shadow-modal);
+  overflow: auto;
+}
+.ui-transaction-dialog[open] {
+  animation: ui-account-dialog-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.ui-transaction-dialog[data-closing="true"] {
+  animation: ui-account-dialog-out 180ms ease-in both;
+}
+.ui-transaction-dialog::backdrop {
+  background: var(--overlay-scrim);
+  backdrop-filter: blur(0.35rem);
+  animation: ui-account-backdrop-in 180ms ease-out both;
+}
+.ui-transaction-dialog[data-closing="true"]::backdrop {
+  animation: ui-account-backdrop-out 180ms ease-in both;
+}
+.ui-transaction-dialog__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.6rem 1.6rem 1rem;
+}
+.ui-transaction-dialog__top > div {
+  display: grid;
+  gap: 0.4rem;
+}
+.ui-transaction-dialog__top h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 2.7rem);
+  letter-spacing: -0.045em;
+}
+.ui-transaction-dialog__top p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+.ui-transaction-dialog__top .ui-portfolio__eyebrow {
+  color: var(--accent-primary);
+}
+.ui-transaction-dialog__top > button {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: inherit;
+  background: var(--surface-raised);
+  cursor: pointer;
+}
+.ui-transaction-dialog form {
+  display: grid;
+  gap: 1.1rem;
+  padding: 0.5rem 1.6rem 1.6rem;
+}
+.ui-transaction-dialog__types {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.35rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--surface-sunken);
+}
+.ui-transaction-dialog__types legend {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+.ui-transaction-dialog__types input {
+  position: absolute;
+  opacity: 0;
+}
+.ui-transaction-dialog__types span {
+  display: grid;
+  place-items: center;
+  min-block-size: 2.7rem;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+.ui-transaction-dialog__types input:checked + span {
+  color: var(--text-inverse);
+  background: var(--surface-inverse);
+}
+.ui-transaction-dialog__types input:focus-visible + span {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.ui-transaction-dialog__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.ui-transaction-dialog__grid label {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+.ui-transaction-dialog__grid :where(input, select, textarea) {
+  inline-size: 100%;
+  box-sizing: border-box;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 0.9rem;
+  color: var(--text-primary);
+  background: var(--surface-panel);
+  font: inherit;
+  font-size: 0.95rem;
+}
+.ui-transaction-dialog__grid :where(input, select, textarea)[aria-invalid="true"] {
+  border-color: var(--color-status-danger);
+}
+.ui-transaction-dialog__grid small {
+  color: var(--color-status-danger);
+  font-weight: 600;
+}
+.ui-transaction-dialog__wide {
+  grid-column: 1 / -1;
+}
+.ui-transaction-dialog__result {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  border-radius: 1rem;
+  background: var(--surface-status-danger);
+}
+.ui-transaction-dialog__result[data-status="success"] {
+  background: var(--surface-status-success);
+}
+.ui-transaction-dialog__result svg {
+  flex: 0 0 auto;
+}
+.ui-transaction-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-block-start: 0.25rem;
+}
+.ui-transaction-dialog__actions > button:not(.ui-portfolio__button) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1rem;
+  border: 0;
+  color: var(--text-secondary);
+  background: transparent;
+  cursor: pointer;
+}
+
+.account-wizard {
+  inline-size: min(48rem, calc(100% - 2rem));
+}
+.account-wizard__progress {
+  color: var(--accent-primary);
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+.account-wizard__step {
+  display: grid;
+  gap: 1.25rem;
+  min-block-size: 18rem;
+  animation: ui-account-step-in 200ms ease-out both;
+}
+.account-wizard__step[hidden] {
+  display: none;
+}
+.account-wizard__step h3 {
+  margin: 0;
+  font: 700 1.35rem/1.15 var(--font-display);
+}
+.account-wizard__types {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+.account-wizard__types > button {
+  position: relative;
+  display: grid;
+  gap: 0.35rem;
+  min-block-size: 7rem;
+  padding: 1rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 1rem;
+  color: var(--text-primary);
+  background: transparent;
+  text-align: start;
+  cursor: pointer;
+}
+.account-wizard__types > button[aria-pressed="true"] {
+  border-color: var(--accent-primary);
+  background: var(--surface-accent);
+}
+.account-wizard__types strong {
+  font: 700 1rem var(--font-display);
+}
+.account-wizard__types span {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+}
+.account-wizard__types svg {
+  position: absolute;
+  inset-block-start: 0.8rem;
+  inset-inline-end: 0.8rem;
+  color: var(--accent-primary);
+}
+.account-wizard__review dl {
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+.account-wizard__review dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.9rem;
+  border-block-end: 1px solid var(--border-subtle);
+}
+.account-wizard__review dt {
+  color: var(--text-secondary);
+}
+.account-wizard__review dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: end;
+}
+.account-wizard__error {
+  color: var(--color-status-danger);
+}
+
+@keyframes ui-account-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.985);
+  }
+}
+@keyframes ui-account-dialog-out {
+  to {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.985);
+  }
+}
+@keyframes ui-account-backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes ui-account-backdrop-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes ui-account-step-in {
+  from {
+    opacity: 0;
+    transform: translateX(0.5rem);
+  }
+}
+@media (max-width: 42rem) {
+  .ui-portfolio__heading {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  .ui-portfolio__heading-action,
+  .ui-portfolio__heading-action .ui-portfolio__button {
+    inline-size: 100%;
+  }
+  .ui-portfolio__hero {
+    min-block-size: 16rem;
+  }
+  .ui-portfolio__hero-orbit {
+    align-self: end;
+  }
+  .ui-portfolio__metrics,
+  .ui-portfolio__account-grid,
+  .ui-portfolio__portability-grid {
+    grid-template-columns: 1fr;
+  }
+  .ui-portfolio__metrics {
+    grid-template-columns: repeat(3, minmax(10rem, 1fr));
+    overflow-x: auto;
+    padding-block-end: 0.5rem;
+    scroll-snap-type: x mandatory;
+  }
+  .ui-portfolio__metrics article {
+    scroll-snap-align: start;
+  }
+  .ui-portfolio__filters {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .ui-portfolio__filters > div {
+    overflow-x: auto;
+  }
+  .ui-portfolio__advanced-filters {
+    grid-template-columns: 1fr;
+  }
+  .ui-portfolio__transaction-list li {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+  .ui-portfolio__transaction-list time {
+    display: none;
+  }
+  .ui-portfolio__transaction-list li > strong {
+    font-size: 0.85rem;
+  }
+  .ui-portfolio__transaction-list .ui-portfolio__record-actions {
+    display: flex;
+    grid-column: 2 / -1;
+  }
+  .ui-portfolio__transaction-list .ui-portfolio__record-actions button {
+    flex: 1;
+  }
+  .ui-portfolio__pagination {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .ui-transaction-dialog {
+    inline-size: 100%;
+    max-inline-size: none;
+    max-block-size: calc(100dvh - 0.5rem - env(safe-area-inset-top, 0px));
+    margin-block: auto 0;
+    border-radius: 1.7rem 1.7rem 0 0;
+  }
+  .ui-transaction-dialog__grid {
+    grid-template-columns: 1fr;
+  }
+  .account-wizard__types {
+    grid-template-columns: 1fr;
+  }
+  .account-wizard__step {
+    min-block-size: auto;
+  }
+  .ui-transaction-dialog__wide {
+    grid-column: auto;
+  }
+  .ui-transaction-dialog__actions {
+    position: sticky;
+    inset-block-end: 0;
+    padding-block: 0.8rem 0.5rem;
+    padding-block-end: max(0.5rem, env(safe-area-inset-bottom, 0px));
+    background: var(--surface-panel);
+  }
+  .ui-transaction-dialog__actions > button {
+    white-space: nowrap;
+  }
+  .ui-transaction-dialog__actions > .ui-portfolio__button {
+    flex: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ui-portfolio__button {
+    transition: none;
+  }
+  .ui-transaction-dialog[open],
+  .ui-transaction-dialog::backdrop,
+  .account-wizard__step {
+    animation: none;
+  }
+}

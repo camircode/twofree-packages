@@ -1,0 +1,9 @@
+node_modules/
+coverage/
+dist/
+**/dist/
+pnpm-lock.yaml
+*.ico
+*.png
+*.svg
+packages/database/src/generated/

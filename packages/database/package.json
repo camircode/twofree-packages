@@ -1,0 +1,51 @@
+{
+  "name": "@camircode/twofree-database",
+  "version": "0.1.0",
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./client.js": {
+      "types": "./dist/client.d.ts",
+      "default": "./dist/client.js"
+    },
+    "./generated/client": "./dist/generated/client/client.js"
+  },
+  "files": [
+    "dist",
+    "!dist/generated",
+    "prisma",
+    "prisma.config.ts"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "dependencies": {
+    "@camircode/twofree-core": "workspace:*",
+    "@camircode/twofree-data-provider": "workspace:*",
+    "@prisma/adapter-pg": "7.9.0",
+    "@prisma/client": "7.9.0",
+    "pg": "^8.22.0"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.20.0",
+    "prisma": "7.9.0",
+    "tsx": "4.20.6"
+  },
+  "scripts": {
+    "db:generate": "prisma generate",
+    "db:migrate": "tsx src/migration.ts",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:baseline": "prisma migrate resolve --applied 00000000000000_legacy_pg_baseline",
+    "db:drift": "prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --exit-code",
+    "db:snapshot": "tsx src/rollback.ts create",
+    "db:snapshot:verify": "tsx src/rollback.ts verify",
+    "prebuild": "pnpm db:generate",
+    "build": "tsc -p tsconfig.build.json",
+    "pretest": "pnpm db:generate",
+    "test": "vitest run --config vitest.config.ts"
+  }
+}

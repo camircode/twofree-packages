@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noEmit": true,
+    "strict": true,
+    "target": "ES2024",
+    "lib": ["ES2024", "DOM", "DOM.Iterable", "ESNext.Disposable"]
+  },
+  "include": ["./workspace.d.ts"],
+  "exclude": ["./packages/**"]
+}

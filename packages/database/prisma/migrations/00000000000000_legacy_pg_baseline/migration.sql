@@ -1,0 +1,2 @@
+-- Existing raw-pg migration history (001_initial.sql and 002_transaction_idempotency.sql)
+-- is imported with `prisma migrate resolve --applied` by db:migrate.

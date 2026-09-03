@@ -1,0 +1,45 @@
+{
+  "name": "@camircode/twofree-data-provider",
+  "version": "0.1.0",
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "default": "./dist/browser.js"
+    },
+    "./in-memory-provider.js": {
+      "types": "./dist/in-memory-provider.d.ts",
+      "default": "./dist/in-memory-provider.js"
+    },
+    "./portability.js": {
+      "types": "./dist/portability.d.ts",
+      "default": "./dist/portability.js"
+    },
+    "./provider.js": {
+      "types": "./dist/provider.d.ts",
+      "default": "./dist/provider.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "dependencies": {
+    "@camircode/twofree-core": "workspace:*",
+    "pg": "^8.22.0"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.20.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/copy-static.mjs src dist .sql",
+    "test": "vitest run --config vitest.config.ts"
+  }
+}

@@ -1,0 +1,452 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                 String                    @id
+  name               String
+  email              String                    @unique
+  emailVerified      Boolean                   @default(false)
+  image              String?
+  createdAt          DateTime                  @default(now())
+  updatedAt          DateTime                  @updatedAt
+  sessions           Session[]                 @relation("UserSessions")
+  accounts           Account[]                 @relation("UserAccounts")
+  financeAccounts    FinanceAccount[]          @relation("FinanceAccountOwner")
+  transactions       FinanceTransaction[]      @relation("FinanceTransactionOwner")
+  idempotencies      TransactionIdempotency[]  @relation("TransactionIdempotencyOwner")
+  quarantinedRows    QuarantinedFinancialRow[] @relation("QuarantineOwner")
+  migrationAudits    MigrationAudit[]          @relation("MigrationAuditOperator")
+  budgets            Budget[]
+  savingsGoals       SavingsGoal[]
+  sharedGroups       SharedExpenseGroup[]      @relation("SharedGroupOwner")
+  sharedMemberships  SharedExpenseMember[]     @relation("SharedMemberUser")
+  sharedExpenses     SharedExpense[]           @relation("SharedExpenseOwner")
+  creditCards        CreditCardProfile[]
+  chargeCards        ChargeCardProfile[]
+  debitProfiles      DebitProfile[]
+  yieldProfiles      YieldAccountProfile[]
+  holdings           SecurityHolding[]
+  cetesHoldings      CetesHolding[]
+  notificationRules  NotificationRule[]
+  notificationEvents NotificationEvent[]
+
+  @@map("auth_user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation("UserSessions", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("auth_session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation("UserAccounts", fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@unique([providerId, accountId])
+  @@index([userId])
+  @@map("auth_account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("auth_verification")
+}
+
+model FinanceAccount {
+  id                          String               @id
+  ownerId                     String               @map("owner_id")
+  type                        String
+  label                       String
+  labelEncrypted              Bytes?               @map("label_encrypted")
+  currency                    String
+  metadata                    Json
+  metadataEncrypted           Bytes?               @map("metadata_encrypted")
+  statementBalanceCoefficient String?              @map("statement_balance_coefficient")
+  statementBalanceScale       Int?                 @map("statement_balance_scale")
+  createdAt                   DateTime             @default(now()) @map("created_at")
+  owner                       User                 @relation("FinanceAccountOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  transactions                FinanceTransaction[] @relation("AccountTransactions")
+  creditCardProfile           CreditCardProfile?
+  chargeCardProfile           ChargeCardProfile?
+  debitProfile                DebitProfile?
+  yieldProfile                YieldAccountProfile?
+
+  @@unique([id, ownerId])
+  @@index([ownerId])
+  @@map("accounts")
+}
+
+model Budget {
+  id        String         @id
+  ownerId   String         @map("owner_id")
+  month     String
+  payload   Bytes
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @updatedAt @map("updated_at")
+  owner     User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  actuals   BudgetActual[]
+
+  @@unique([id, ownerId])
+  @@index([ownerId, month])
+  @@map("budgets")
+}
+
+model BudgetActual {
+  id          String   @id
+  ownerId     String   @map("owner_id")
+  budgetId    String   @map("budget_id")
+  coefficient String
+  scale       Int
+  recordedAt  DateTime @default(now()) @map("recorded_at")
+  budget      Budget   @relation(fields: [budgetId, ownerId], references: [id, ownerId], onDelete: Cascade)
+
+  @@index([ownerId, budgetId])
+  @@map("budget_actuals")
+}
+
+model SavingsGoal {
+  id        String   @id
+  ownerId   String   @map("owner_id")
+  payload   Bytes
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@unique([id, ownerId])
+  @@index([ownerId])
+  @@map("savings_goals")
+}
+
+model SharedExpenseGroup {
+  id        String                @id
+  ownerId   String                @map("owner_id")
+  payload   Bytes
+  createdAt DateTime              @default(now()) @map("created_at")
+  updatedAt DateTime              @updatedAt @map("updated_at")
+  owner     User                  @relation("SharedGroupOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  members   SharedExpenseMember[]
+  expenses  SharedExpense[]
+
+  @@unique([id, ownerId])
+  @@index([ownerId])
+  @@map("shared_expense_groups")
+}
+
+model SharedExpenseMember {
+  id      String             @id
+  ownerId String             @map("owner_id")
+  groupId String             @map("group_id")
+  userId  String             @map("user_id")
+  role    String
+  group   SharedExpenseGroup @relation(fields: [groupId, ownerId], references: [id, ownerId], onDelete: Cascade)
+  user    User               @relation("SharedMemberUser", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, userId])
+  @@index([ownerId, groupId])
+  @@index([userId])
+  @@map("shared_expense_members")
+}
+
+model SharedExpense {
+  id        String               @id
+  ownerId   String               @map("owner_id")
+  groupId   String               @map("group_id")
+  payload   Bytes
+  createdAt DateTime             @default(now()) @map("created_at")
+  updatedAt DateTime             @updatedAt @map("updated_at")
+  owner     User                 @relation("SharedExpenseOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  group     SharedExpenseGroup   @relation(fields: [groupId, ownerId], references: [id, ownerId], onDelete: Cascade)
+  splits    SharedExpenseSplit[]
+
+  @@unique([id, ownerId])
+  @@index([ownerId, groupId])
+  @@map("shared_expenses")
+}
+
+model SharedExpenseSplit {
+  id          String        @id
+  ownerId     String        @map("owner_id")
+  expenseId   String        @map("expense_id")
+  userId      String        @map("user_id")
+  coefficient String
+  scale       Int
+  expense     SharedExpense @relation(fields: [expenseId, ownerId], references: [id, ownerId], onDelete: Cascade)
+
+  @@unique([expenseId, userId])
+  @@index([ownerId, expenseId])
+  @@map("shared_expense_splits")
+}
+
+model CreditCardProfile {
+  id        String               @id
+  ownerId   String               @map("owner_id")
+  accountId String               @map("account_id")
+  payload   Bytes
+  createdAt DateTime             @default(now()) @map("created_at")
+  updatedAt DateTime             @updatedAt @map("updated_at")
+  owner     User                 @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  account   FinanceAccount       @relation(fields: [accountId, ownerId], references: [id, ownerId], onDelete: Cascade)
+  history   CreditLimitHistory[]
+  movements CardMovement[]
+
+  @@unique([id, ownerId])
+  @@unique([accountId, ownerId])
+  @@index([ownerId])
+  @@map("credit_card_profiles")
+}
+
+model ChargeCardProfile {
+  id        String         @id
+  ownerId   String         @map("owner_id")
+  accountId String         @map("account_id")
+  payload   Bytes
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @updatedAt @map("updated_at")
+  owner     User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  account   FinanceAccount @relation(fields: [accountId, ownerId], references: [id, ownerId], onDelete: Cascade)
+  movements CardMovement[]
+
+  @@unique([id, ownerId])
+  @@unique([accountId, ownerId])
+  @@index([ownerId])
+  @@map("charge_card_profiles")
+}
+
+model CreditLimitHistory {
+  id          String            @id
+  ownerId     String            @map("owner_id")
+  profileId   String            @map("profile_id")
+  coefficient String
+  scale       Int
+  effectiveAt DateTime          @map("effective_at")
+  profile     CreditCardProfile @relation(fields: [profileId, ownerId], references: [id, ownerId], onDelete: Cascade)
+
+  @@index([ownerId, profileId, effectiveAt])
+  @@map("credit_limit_history")
+}
+
+model CardMovement {
+  id              String             @id
+  ownerId         String             @map("owner_id")
+  creditProfileId String?            @map("credit_profile_id")
+  chargeProfileId String?            @map("charge_profile_id")
+  type            String
+  payload         Bytes
+  occurredAt      DateTime           @map("occurred_at")
+  creditProfile   CreditCardProfile? @relation(fields: [creditProfileId, ownerId], references: [id, ownerId], onDelete: Cascade)
+  chargeProfile   ChargeCardProfile? @relation(fields: [chargeProfileId, ownerId], references: [id, ownerId], onDelete: Cascade)
+
+  @@index([ownerId, occurredAt])
+  @@map("card_movements")
+}
+
+model DebitProfile {
+  id        String         @id
+  ownerId   String         @map("owner_id")
+  accountId String         @map("account_id")
+  payload   Bytes
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @updatedAt @map("updated_at")
+  owner     User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  account   FinanceAccount @relation(fields: [accountId, ownerId], references: [id, ownerId], onDelete: Cascade)
+
+  @@unique([id, ownerId])
+  @@unique([accountId, ownerId])
+  @@map("debit_profiles")
+}
+
+model YieldAccountProfile {
+  id        String         @id
+  ownerId   String         @map("owner_id")
+  accountId String         @map("account_id")
+  payload   Bytes
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @updatedAt @map("updated_at")
+  owner     User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  account   FinanceAccount @relation(fields: [accountId, ownerId], references: [id, ownerId], onDelete: Cascade)
+
+  @@unique([id, ownerId])
+  @@unique([accountId, ownerId])
+  @@map("yield_account_profiles")
+}
+
+model SecurityHolding {
+  id         String               @id
+  ownerId    String               @map("owner_id")
+  symbolHash String               @map("symbol_hash")
+  payload    Bytes
+  createdAt  DateTime             @default(now()) @map("created_at")
+  updatedAt  DateTime             @updatedAt @map("updated_at")
+  owner      User                 @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  purchases  InvestmentPurchase[]
+
+  @@unique([id, ownerId])
+  @@index([ownerId, symbolHash])
+  @@map("security_holdings")
+}
+
+model InvestmentPurchase {
+  id          String          @id
+  ownerId     String          @map("owner_id")
+  holdingId   String          @map("holding_id")
+  payload     Bytes
+  purchasedAt DateTime        @map("purchased_at")
+  holding     SecurityHolding @relation(fields: [holdingId, ownerId], references: [id, ownerId], onDelete: Cascade)
+
+  @@index([ownerId, holdingId, purchasedAt])
+  @@map("investment_purchases")
+}
+
+model CetesHolding {
+  id           String   @id
+  ownerId      String   @map("owner_id")
+  maturityDate DateTime @map("maturity_date")
+  payload      Bytes
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  owner        User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@unique([id, ownerId])
+  @@index([ownerId, maturityDate])
+  @@map("cetes_holdings")
+}
+
+model NotificationRule {
+  id         String              @id
+  ownerId    String              @map("owner_id")
+  sourceHash String              @map("source_hash")
+  enabled    Boolean             @default(true)
+  payload    Bytes
+  createdAt  DateTime            @default(now()) @map("created_at")
+  updatedAt  DateTime            @updatedAt @map("updated_at")
+  owner      User                @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  events     NotificationEvent[]
+
+  @@unique([id, ownerId])
+  @@index([ownerId, enabled])
+  @@index([ownerId, sourceHash])
+  @@map("notification_rules")
+}
+
+model NotificationEvent {
+  id         String           @id
+  ownerId    String           @map("owner_id")
+  ruleId     String           @map("rule_id")
+  payload    Bytes
+  occurredAt DateTime         @map("occurred_at")
+  owner      User             @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  rule       NotificationRule @relation(fields: [ruleId, ownerId], references: [id, ownerId], onDelete: Cascade)
+
+  @@index([ownerId, occurredAt])
+  @@index([ownerId, ruleId])
+  @@map("notification_events")
+}
+
+model FinanceTransaction {
+  id                String                  @id
+  ownerId           String                  @map("owner_id")
+  accountId         String                  @map("account_id")
+  currency          String
+  amountCoefficient String                  @map("amount_coefficient")
+  amountScale       Int                     @map("amount_scale")
+  metadata          Json
+  metadataEncrypted Bytes?                  @map("metadata_encrypted")
+  createdAt         DateTime                @default(now()) @map("created_at")
+  owner             User                    @relation("FinanceTransactionOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  account           FinanceAccount          @relation("AccountTransactions", fields: [accountId, ownerId], references: [id, ownerId], onDelete: Restrict)
+  idempotency       TransactionIdempotency? @relation("TransactionIdempotencyTransaction")
+
+  @@unique([id, ownerId])
+  @@index([ownerId, accountId])
+  @@map("transactions")
+}
+
+model TransactionIdempotency {
+  id                 String             @id
+  ownerId            String             @map("owner_id")
+  key                String
+  requestFingerprint String             @map("request_fingerprint")
+  transactionId      String             @map("transaction_id")
+  createdAt          DateTime           @default(now()) @map("created_at")
+  owner              User               @relation("TransactionIdempotencyOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  transaction        FinanceTransaction @relation("TransactionIdempotencyTransaction", fields: [transactionId, ownerId], references: [id, ownerId], onDelete: Cascade)
+
+  @@unique([ownerId, key])
+  @@unique([transactionId, ownerId])
+  @@index([ownerId])
+  @@index([transactionId, ownerId])
+  @@map("transaction_idempotency")
+}
+
+model QuarantinedFinancialRow {
+  id               String         @id
+  sourceTable      String         @map("source_table")
+  sourceId         String         @map("source_id")
+  payload          Json
+  reason           String
+  ownerId          String?        @map("owner_id")
+  migrationAuditId String         @map("migration_audit_id")
+  owner            User?          @relation("QuarantineOwner", fields: [ownerId], references: [id], onDelete: SetNull)
+  migrationAudit   MigrationAudit @relation(fields: [migrationAuditId], references: [id], onDelete: Restrict)
+  createdAt        DateTime       @default(now()) @map("created_at")
+  updatedAt        DateTime       @updatedAt @map("updated_at")
+
+  @@unique([sourceTable, sourceId])
+  @@index([ownerId])
+  @@index([migrationAuditId])
+  @@map("quarantined_financial_rows")
+}
+
+model MigrationAudit {
+  id               String                    @id
+  command          String
+  operatorId       String                    @map("operator_id")
+  checksum         String
+  rowCount         Int                       @map("row_count")
+  assignedCount    Int                       @map("assigned_count")
+  quarantinedCount Int                       @map("quarantined_count")
+  action           String
+  createdAt        DateTime                  @default(now()) @map("created_at")
+  operator         User                      @relation("MigrationAuditOperator", fields: [operatorId], references: [id], onDelete: Restrict)
+  rows             QuarantinedFinancialRow[]
+
+  @@index([operatorId])
+  @@index([checksum])
+  @@index([action, createdAt])
+  @@map("migration_audits")
+}

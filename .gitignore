@@ -1,0 +1,10 @@
+node_modules/
+coverage/
+dist/
+**/.vitest-attachments/
+packages/database/src/generated/
+*.log
+.env
+.env.*
+!.env.example
+artifacts/visual/

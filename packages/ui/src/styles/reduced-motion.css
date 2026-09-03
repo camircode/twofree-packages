@@ -1,0 +1,41 @@
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: none;
+    --transition-surface: none;
+    --transition-slow: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+[data-motion="reduced"] {
+  --transition-fast: none;
+  --transition-surface: none;
+  --transition-slow: none;
+  scroll-behavior: auto;
+}
+
+[data-motion="reduced"] *,
+[data-motion="reduced"] *::before,
+[data-motion="reduced"] *::after {
+  animation: none !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+  transition: none !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* The settled marker is used by visual harnesses and does not disable motion. */
+[data-motion-settled] {
+  --motion-settled: true;
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@camircode/twofree-application",
+  "version": "0.1.0",
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "dependencies": {
+    "@camircode/twofree-auth": "workspace:*",
+    "@camircode/twofree-core": "workspace:*",
+    "@camircode/twofree-data-provider": "workspace:*"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run --config vitest.config.ts"
+  }
+}
