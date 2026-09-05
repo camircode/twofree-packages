@@ -2,17 +2,22 @@ import { URL } from "node:url";
 
 import { loadAuthConfig, type AuthConfig } from "@camircode/twofree-auth/config.js";
 
-export type RuntimeProfile = "compose-cloud-dev" | "cloud" | "cloud-test" | "local-offline" | "ci";
-
-// Single source of truth for the accepted APP_PROFILE values: the runtime guard
-// and the exported union must never drift apart.
-export const runtimeProfiles: readonly RuntimeProfile[] = [
+// The array is the declaration and the union is derived from it, rather than
+// the two being written out separately and asserted to agree.
+//
+// Written separately, `readonly RuntimeProfile[]` only catches one direction:
+// an array entry missing from the union. A union member missing from the array
+// type-checks cleanly and fails at container start with "APP_PROFILE ... is not
+// supported" — a profile that exists everywhere except where it is validated.
+export const runtimeProfiles = [
   "compose-cloud-dev",
   "cloud",
   "cloud-test",
   "local-offline",
   "ci",
-];
+] as const;
+
+export type RuntimeProfile = (typeof runtimeProfiles)[number];
 
 export type RuntimeConfig = Readonly<{
   appName: "2free";
